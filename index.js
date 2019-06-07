@@ -2,6 +2,7 @@
 const express = require('express')
 const PDFDocument = require('pdfkit')
 const app = express()
+let port = process.env.PORT || 3000;
 
 app.use(function (req, res, next) {
     if (req.query.data) {
@@ -56,6 +57,6 @@ app.use(function (req, res, next) {
     doc.end()
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Server running on http://0.0.0.0:3000');
 })
