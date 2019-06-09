@@ -58,5 +58,5 @@ app.use(function (req, res, next) {
 })
 
 app.listen(port, () => {
-    console.log('Server running on http://0.0.0.0:3000');
+    console.log('Server running on http://0.0.0.0:' + port);
 })
