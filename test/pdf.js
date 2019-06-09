@@ -68,36 +68,36 @@ const data = {
    ]
 }
 
-   // Create a document
-   const doc = new PDFDocument({layout: 'portrait', size: 'A4'})
-   doc.font('fonts/GoodDog.ttf').fontSize(36)
-   doc.info.Title = 'Tagesablauf'
-   doc.info.subject = 'Tagesablauf'
-   doc.info.Creator = 'NULLzuEINS Inh. André Lademann'
-   doc.info.Keywords = 'kindergarten'
+// Create a document
+const doc = new PDFDocument({layout: 'portrait', size: 'A4'})
+doc.font('fonts/GoodDog.ttf').fontSize(36)
+doc.info.Title = 'Tagesablauf'
+doc.info.subject = 'Tagesablauf'
+doc.info.Creator = 'NULLzuEINS Inh. André Lademann'
+doc.info.Keywords = 'kindergarten'
 
-   const positionX = 70
+const positionX = 70
 
-   // Pipe its output somewhere, like to a file or HTTP response
-   // See below for browser usage
-   doc.pipe(fs.createWriteStream(data.file.name))
+// Pipe its output somewhere, like to a file or HTTP response
+// See below for browser usage
+doc.pipe(fs.createWriteStream(data.file.name))
 
-   // Embed a font, set the font size, and render some text
-   data.content.forEach( (element, index) => {
-      let positionY = (index % 2 === 0) ? 60 : 430
-      if(element.type === 'image') {
-         doc.image(element.path, positionX, positionY, {
-            width: 450
-         })   
-      }  
-      if(element.type === 'text') {
-         doc.text(element.content, positionX + 8, positionY)
-      }
-      if( index % 2 === 1 && index < data.content.length - 1 ) {
-         doc.addPage({layout: 'portrait', size: 'A4'})
-      }
-   })
+// Embed a font, set the font size, and render some text
+data.content.forEach( (element, index) => {
+   let positionY = (index % 2 === 0) ? 60 : 430
+   if(element.type === 'image') {
+      doc.image(element.path, positionX, positionY, {
+         width: 450
+      })   
+   }  
+   if(element.type === 'text') {
+      doc.text(element.content, positionX + 8, positionY)
+   }
+   if( index % 2 === 1 && index < data.content.length - 1 ) {
+      doc.addPage({layout: 'portrait', size: 'A4'})
+   }
+})
 
-   // Finalize PDF file
-   doc.end()
+// Finalize PDF file
+doc.end()
 
