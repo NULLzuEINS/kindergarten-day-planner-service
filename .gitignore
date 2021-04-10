@@ -2,7 +2,10 @@
 
 !/fonts
 !/images
+!/plugins
+!/routes
 !/test
 !/.gitignore
-!/index.js
-!/package*
+!/app.js
+!/package.json
+!/yarn.lock
