@@ -5,7 +5,7 @@ const PDFDocument = require('pdfkit')
 const app = express()
 
 const url = process.env.URL || 'http://0.0.0.0'
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 
 app.use(function (req, res, next) {
     if (req.query.data || req.query.params) {
