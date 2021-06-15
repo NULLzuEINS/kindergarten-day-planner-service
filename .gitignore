@@ -8,4 +8,5 @@
 !/.gitignore
 !/app.js
 !/package.json
+!/README.md
 !/yarn.lock
