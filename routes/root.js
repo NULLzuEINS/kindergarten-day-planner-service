@@ -51,42 +51,7 @@ module.exports = async function (fastify, opts) {
       path: './swagger.yaml'
     },
     exposeRoute: true
-  })
-
-  fastify.get('/status', async (request, reply) => {
-    return {
-      "health": request.query.health,
-      "date": new Date().toISOString()
-    }
-  })
-
-  fastify.get('/', {
-    schema: {
-      description: 'Get the root path',
-      tags: ['test'],
-      summary: 'Get the root path',
-      params: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-            description: 'The name of the user'
-          }
-        }
-      },
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            hello: {
-              type: 'string',
-              description: 'The message'
-            }
-          }
-        }
-      }
-    }
-  }, (request, reply) => { })
+  }) 
 
   fastify.ready(err => {
     if (err) throw err

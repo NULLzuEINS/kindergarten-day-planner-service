@@ -1,5 +1,6 @@
 /*
 
+!/data
 !/fonts
 !/images
 !/plugins
@@ -10,3 +11,8 @@
 !/package.json
 !/README.md
 !/yarn.lock
+
+# Keep empty folders
+!/downloads/
+/downloads/*
+!/downloads/.keep

@@ -1,60 +1,119 @@
 openapi: 3.0.0
 info:
-  description: "Test swagger specification"
+  title: "Kita day planner"
+  description: "API to generate kita day planner pdf"
   version: "1.0.0"
-  title: "Test swagger specification"
   contact:
     email: "andre@nullzueins.com"
+  license:
+    name: "MIT"
+  termsOfService: "/api-terms-service"
 servers:
   - url: http://127.0.0.1:3000/
     description: Localhost (uses test data)
+  - url: https://kita-date-planner.nullzueins.com/
+    description: Production (uses live data)
+externalDocs: 
+  - url: 'https://github.com/nullzueins/kindergarten-day-planner-service/'
+    description: 'Find more info on GitHub repository'
+produces: 
+  - 'application/json'
+  - 'application/pdf'
+tags:
+  - name: "Image"
+    description: "Images of Kita day planner"
+  - name: "PDF"
+    description: "Kita day planner pdf"
+schemes:
+  - http
+  - https
+uiConfig:
+    docExpansion: full
+    deepLinking: true
+    defaultModelRendering: schema
+    
 paths:
-  /status:
-    get:
-      description: Status route, so we can check if server is alive
-      tags:
-        - Status
-      parameters:
-        - name: health
-          in: query
-          description: Service status
-          required: true
-          schema:
-            type: boolean
-            default: true
-
-      responses:
-        200:
-          description: 'Server is alive'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  health:
-                     type: boolean
-                  date:
-                     type: string
-                example:
-                  health: true 
-                  date: "2018-02-19T15:36:46.758Z"
-  /image/$id:
+  /images:
     get:
       description: Get image
       tags:
         - Image
       responses:
         200:
-          description: 'The illustration'
+          description: All images
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  - id: 12
+                    filename: image_12.jpg
+                    description: Image description for image 12
+                  - id: 42
+                    filename: image_42.jpg
+                    description: Image description for image 42
+
+  /image:
+    get:
+      description: Get image
+      tags:
+        - Image
+      responses:
+        200:
+          description: The illustration
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  fileName:
-                     type: string
-                  description:
-                     type: string
-                example:
-                 fileName: kids-playing-with-a-ball.jpg
-                 description: "Kids playing with a ball"
+                  id:
+                    type: integer
+                    format: int64
+                  title: Image identifier
+                  description: The inditifier of the requested image
+      parameters:
+      - in: query
+        name: id
+        title: Image identifier
+        description: The inditifier of the requested image
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 14
+
+  /pdf:
+    get:
+      description: "**Generate** pdf with images."
+      tags:
+        - PDF
+      parameters:
+        - in: query
+          name: image
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+              minimum: 0
+              maximum: 14
+            minItems: 1
+            maxItems: 15
+          example:
+            id: 
+            - 12
+            - 144
+          style: matrix
+          explode: true
+      responses:
+        200:
+          description: 'An generated PDF.'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                cache: true
+                url: http://127.0.0.1:3000/downloads/tagesplaner_14-9.pdf
