@@ -11,6 +11,8 @@ info:
 servers:
   - url: http://127.0.0.1:3000/
     description: Localhost (uses test data)
+  - url: https://day-planner-service.herokuapp.com/
+    description: Staging (uses test data)
   - url: https://kita-date-planner.nullzueins.com/
     description: Production (uses live data)
 externalDocs: 
