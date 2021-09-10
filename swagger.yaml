@@ -1,31 +1,31 @@
 openapi: 3.0.0
 info:
-  title: "Kita day planner"
-  description: "API to generate kita day planner pdf"
-  version: "1.0.0"
+  title: Kita day planner
+  description: API to generate kita day planner pdf
+  version: 1.0.0
   contact:
-    email: "andre@nullzueins.com"
+    email: andre@nullzueins.com
   license:
-    name: "MIT"
-  termsOfService: "/api-terms-service"
+    name: MIT
+  termsOfService: /api-terms-service
 servers:
-  - url: http://127.0.0.1:3000/
+  - url: http://0.0.0.0:3000/
     description: Localhost (uses test data)
   - url: https://day-planner-service.herokuapp.com/
     description: Staging (uses test data)
   - url: https://kita-date-planner.nullzueins.com/
     description: Production (uses live data)
 externalDocs: 
-  - url: 'https://github.com/nullzueins/kindergarten-day-planner-service/'
-    description: 'Find more info on GitHub repository'
+  - url: https://github.com/nullzueins/kindergarten-day-planner-service/
+    description: Find more info on GitHub repository
 produces: 
-  - 'application/json'
-  - 'application/pdf'
+  - application/json
+  - application/pdf
 tags:
-  - name: "Image"
-    description: "Images of Kita day planner"
-  - name: "PDF"
-    description: "Kita day planner pdf"
+  - name: Image
+    description: Images of Kita day planner
+  - name: PDF
+    description: Kita day planner pdf
 schemes:
   - http
   - https
@@ -111,11 +111,14 @@ paths:
           explode: true
       responses:
         200:
-          description: 'An generated PDF.'
+          description: Returns an generated PDF with the selected images included.
           content:
+            application/pdf:
+              schema:
+                type: file
             application/json:
               schema:
                 type: object
               example:
                 cache: true
-                url: http://127.0.0.1:3000/downloads/tagesplaner_14-9.pdf
+                url: https://day-planner-service.herokuapp.com/downloads/tagesplaner_14-9.pdf

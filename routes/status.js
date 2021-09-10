@@ -7,5 +7,4 @@ module.exports = async function (fastify, opts) {
       "date": new Date().toISOString()
     }
   })
-
 }

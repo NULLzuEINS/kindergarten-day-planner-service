@@ -1,0 +1,15 @@
+version: '3.6'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: dayplanner-service-app
+    environment: 
+      - PORT=3000
+      - DIR_DOWNLOADS=downloads
+    volumes: 
+      - ./downloads:/usr/src/app/downloads
+    ports: 
+      - 3000:3000

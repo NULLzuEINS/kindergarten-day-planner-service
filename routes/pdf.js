@@ -1,13 +1,12 @@
 'use strict'
 
-const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const images = require('../data/images.json')
+const path = require('path')
+const PDFDocument = require('pdfkit');
 
 module.exports = async function (fastify, opts) {
   fastify.get('/pdf', async function (request, reply) {
-
-    console.log(reply.getHeaders())
 
     // Throw an error when request.query.image is not defined
     if (!request.query.image) {
@@ -55,12 +54,14 @@ module.exports = async function (fastify, opts) {
     const imageWitdh = 450
 
     // Setup file name and download path
+    const downloadsDirectory = process.env.DIR_DOWNLOADS || 'downloads'
     const filename = `tagesplaner_${request.query.image.join('-')}.pdf`
-    const filePath = `downloads/${filename}`
+    const filePath = `${downloadsDirectory}/${filename}`
     const url = `${request.protocol}://${request.hostname}/${filePath}`
 
     // Check if file already exists
     if (fs.existsSync(filePath)) {
+      return reply.sendFile(filename, path.join(__dirname, `../${downloadsDirectory}`))
       // File already exists, return url
       return {
         cache: true,
@@ -88,7 +89,7 @@ module.exports = async function (fastify, opts) {
         }
       });
 
-      doc.pipe(fs.createWriteStream(`${filePath}`));
+      await doc.pipe(fs.createWriteStream(`${filePath}`));
 
       // Add images to the document
       request.query.image.forEach((element, index) => {
@@ -101,22 +102,18 @@ module.exports = async function (fastify, opts) {
         if (index % 2 === 0) {
           doc.moveDown()
         } else {
-          // Add a new page if the image is not the last one
-          if (index !== images.length - 1) {
+          if (index !== request.query.image.length - 1) {
             doc.addPage()
           }
         }
       })
 
       // Close the document
-      doc.end();
-
-      // Return the file path
-      return {
-        cache: false,
-        url: url
-      }
-
+      await doc.end();
+      
+      // timeout to wait for the file to be written
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return await reply.sendFile(filename, path.join(__dirname, `../${downloadsDirectory}`))
     }
   })
 }
