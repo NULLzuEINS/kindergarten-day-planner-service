@@ -1,0 +1,15 @@
+# Exported from Render on 2024-12-03T15:16:00Z
+services:
+- type: web
+  name: KiTa Tagesplaner
+  runtime: static
+  repo: https://github.com/NULLzuEINS/kindergarten-day-planner-app
+  envVars:
+  - fromGroup: production
+  buildCommand: yarn build
+  staticPublishPath: ./dist
+  domains:
+  - kita-tagesplaner.onrender.com
+  previews:
+    generation: automatic
+version: "1"
