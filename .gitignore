@@ -13,6 +13,7 @@
 !/Dockerfile
 !/package.json
 !/README.md
+!/render.yaml
 !/yarn.lock
 
 # Keep empty folders
